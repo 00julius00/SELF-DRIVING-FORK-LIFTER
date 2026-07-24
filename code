@@ -1,0 +1,108 @@
+#include <Servo.h>
+
+int motor_IN_1 = 8;
+int motor_IN_2 = 9;
+int motor_IN_3 = 10;
+int motor_IN_4 = 11;
+
+int sensor_L = 4;
+int sensor_R = 5;
+int irObject = 2;
+
+Servo liftServo;
+int servoPin = 7;
+
+int ON_Time = 50;
+int OFF_Time = 10;
+
+bool isLifted = false;
+
+void setup() {
+  pinMode(motor_IN_1, OUTPUT);
+  pinMode(motor_IN_2, OUTPUT);
+  pinMode(motor_IN_3, OUTPUT);
+  pinMode(motor_IN_4, OUTPUT);
+  pinMode(sensor_L, INPUT);
+  pinMode(sensor_R, INPUT);
+  pinMode(irObject, INPUT);
+  liftServo.attach(servoPin);
+  liftServo.write(0);
+}
+
+void loop() {
+  for (int i = 0; i < 10; i++) {
+    
+    if (digitalRead(sensor_L) == LOW && digitalRead(sensor_R) == LOW) {
+      digitalWrite(motor_IN_1, LOW);
+      digitalWrite(motor_IN_2, LOW);
+      digitalWrite(motor_IN_3, LOW);
+      digitalWrite(motor_IN_4, LOW);
+      delay(200); // Small pause
+
+      for (int j = 0; j < 10; j++) {
+        digitalWrite(motor_IN_1, LOW);
+        digitalWrite(motor_IN_2, HIGH);
+        digitalWrite(motor_IN_3, HIGH);
+        digitalWrite(motor_IN_4, LOW);
+
+        delay(ON_Time);
+
+        digitalWrite(motor_IN_1, LOW);
+        digitalWrite(motor_IN_2, LOW);
+        digitalWrite(motor_IN_3, LOW);
+        digitalWrite(motor_IN_4, LOW);
+
+        delay(OFF_Time);
+      }
+      break; 
+    }
+
+    if (digitalRead(sensor_L) == LOW) {
+      digitalWrite(motor_IN_1, HIGH);
+      digitalWrite(motor_IN_2, LOW);
+    } else if (digitalRead(sensor_L) == HIGH) {
+      if (digitalRead(sensor_R) == LOW) {
+        digitalWrite(motor_IN_1, LOW);
+        digitalWrite(motor_IN_2, HIGH);
+      } else {
+        digitalWrite(motor_IN_1, LOW);
+        digitalWrite(motor_IN_2, LOW);
+      }
+    }
+
+    if (digitalRead(sensor_R) == LOW) {
+      digitalWrite(motor_IN_3, HIGH);
+      digitalWrite(motor_IN_4, LOW);
+    } else if (digitalRead(sensor_R) == HIGH) {
+      if (digitalRead(sensor_L) == LOW) {
+        digitalWrite(motor_IN_3, LOW);
+        digitalWrite(motor_IN_4, HIGH);
+      } else {
+        digitalWrite(motor_IN_3, LOW);
+        digitalWrite(motor_IN_4, LOW);
+      }
+    }
+
+    delay(ON_Time);
+    digitalWrite(motor_IN_1, LOW);
+    digitalWrite(motor_IN_2, LOW);
+    digitalWrite(motor_IN_3, LOW);
+    digitalWrite(motor_IN_4, LOW);
+    delay(OFF_Time);
+  }
+
+  if (digitalRead(irObject) == LOW && !isLifted) {
+    for (int pos = 120; pos < 150; pos++) {
+      liftServo.write(pos);
+      delay(100);
+    }
+    isLifted = true;
+  }
+  else if (digitalRead(irObject) == HIGH && isLifted) {
+    for (int pos = 150; pos > 120; pos--) {
+      liftServo.write(pos);
+      delay(100);
+    }
+    isLifted = false;
+  }
+}
