@@ -51,17 +51,12 @@ An Arduino-based autonomous self driving robot with a servo-operated forklift me
 - Arduino IDE
 - Servo Library (`Servo.h`)
 
-## Project Structure
+## Photos
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/58cac25d-bb0a-407c-aae8-88067c090e17" />
 
-```
-Line-Follower-Forklift-Robot/
-│
-├── Line_Follower_Forklift.ino
-├── README.md
-└── Images/
-    ├── robot.jpg
-    └── circuit_diagram.png
-```
+<img width="1280" height="960" alt="image" src="https://github.com/user-attachments/assets/f9f0a40d-5f93-4a68-90bf-ecba942aa444" />
+
+
 
 ## Future Improvements
 
@@ -82,7 +77,7 @@ Line-Follower-Forklift-Robot/
 
 ## Author
 
-**Julius**
+**MANOJKUMAR S**
 
 Engineering Student | Embedded Systems | Arduino | IoT | PCB Design
 
